@@ -39,3 +39,11 @@ Các thang này cũng được đóng gói thành công cụ web miễn phí (kh
 
 CC BY 4.0 — © Tan Ho & Leona AI. Xem `LICENSE`.
 Bạn được tự do dùng, chia sẻ, điều chỉnh — chỉ cần ghi nguồn.
+
+## Support
+
+This project is built and maintained independently, in the open. If it saves you time, you can support its development with a voluntary donation:
+
+**[Support PAI / Zline via Stripe](https://donate.stripe.com/5kQ6oG7YIcWdf51cUv7bW05)**
+
+Support is a donation, not a purchase — no product or service is delivered in return, and everything here stays free either way.
