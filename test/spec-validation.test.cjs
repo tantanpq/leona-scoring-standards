@@ -4,7 +4,11 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 const { spawnSync } = require('node:child_process');
-const { validateMarkdown } = require('../scripts/validate-spec.cjs');
+const { validateMarkdown, validateBusinessMarkdown } = require('../scripts/validate-spec.cjs');
+
+const businessMarkdown = () => readFileSync(join(__dirname, '../specs/business-idea-scoring.md'), 'utf8');
+const approvedWeights = [7, 12, 7, 4, 7, 8, 10, 7, 6, 8, 4, 5, 2, 7, 6];
+const approvedIds = Array.from({ length: 14 }, (_, i) => `C${i + 1}`).concat('F3');
 
 // Synthetic, complete fixture: no duplication of the business rubric's IDs/weights.
 function fixture() {
@@ -53,19 +57,51 @@ test('rejects unknown and duplicated sections and inconsistent heading weights',
 });
 test('handles empty input without silently passing', () => assert.ok(validateMarkdown('').errors.length > 0));
 test('current spec totals 100 and exposes all twelve unresolved inherited anchor sets', () => {
-  const markdown = readFileSync(join(__dirname, '../specs/business-idea-scoring.md'), 'utf8');
-  const result = validateMarkdown(markdown);
+  const markdown = businessMarkdown();
+  const result = validateBusinessMarkdown(markdown);
   assert.equal(result.criteria.length, 15);
   assert.equal(result.total, 100);
   assert.equal(result.sum, 100);
   assert.equal(new Set(result.criteria.map(c => c.id)).size, 15);
+  assert.deepEqual(result.criteria.map(c => c.id), approvedIds);
+  assert.deepEqual(result.criteria.map(c => c.weight), approvedWeights);
   assert.equal(result.errors.length, 12);
   assert.ok(result.errors.every(issue => issue.code === 'missing-anchors'));
-  assert.deepEqual(result.criteria.filter(c => c.anchors.length === 5).map(c => c.id).sort(), ['F1', 'F2', 'F3']);
+  assert.deepEqual(result.criteria.filter(c => c.anchors.length === 5).map(c => c.id).sort(), ['C1', 'C2', 'F3']);
   // Appending explicit synthetic definitions proves missing anchors are detected,
   // rather than waived for the current document. Never write this fixture to disk.
   const completed = markdown + result.criteria.filter(c => !c.anchors.length).map(c => `\n## ${c.id}. Example (${c.weight})\n\n| Điểm | Mốc |\n|---:|---|\n` + [0, 25, 50, 75, 100].map(n => `| ${n} | Example |`).join('\n')).join('\n');
-  assert.deepEqual(validateMarkdown(completed).errors, []);
+  assert.deepEqual(validateBusinessMarkdown(completed).errors, []);
+});
+test('business validator rejects legacy IDs and reordered canonical IDs', () => {
+  const markdown = businessMarkdown();
+  for (const changed of [
+    markdown.replace(/\bC1\b/g, 'F2').replace(/\bC2\b/g, 'F1'),
+    markdown.replace(/\bC1\b/g, 'TEMP').replace(/\bC2\b/g, 'C1').replace(/\bTEMP\b/g, 'C2')
+  ]) {
+    assert.ok(validateBusinessMarkdown(changed).errors.some(issue => issue.code === 'canonical-ids'));
+  }
+});
+test('business validator rejects swapped C1/C2 meanings and weights even with a valid total', () => {
+  const markdown = businessMarkdown();
+  for (const changed of [
+    markdown.replace(/Why Now/g, 'TEMP').replace(/Market Frame/g, 'Why Now').replace(/TEMP/g, 'Market Frame'),
+    markdown.replace(/(\| C1 \|[^\n]+\|) 7 \|/, '$1 12 |').replace(/(\| C2 \|[^\n]+\|) 12 \|/, '$1 7 |')
+  ]) {
+    const result = validateBusinessMarkdown(changed);
+    assert.equal(result.sum, 100);
+    assert.ok(result.errors.some(issue => issue.code === 'canonical-mapping'));
+  }
+});
+test('copy-paste prompt uses the approved ordered IDs, weights and C1/C2 meanings', () => {
+  const prompt = readFileSync(join(__dirname, '../prompts/cham-y-tuong.md'), 'utf8');
+  const criteria = [...prompt.matchAll(/^\| ([A-Z]+\d+)\. ([^|]+)\| (\d+) \|/gm)];
+  assert.deepEqual(criteria.map(c => c[1]), approvedIds);
+  assert.deepEqual(criteria.map(c => Number(c[3])), approvedWeights);
+  assert.equal(criteria[0][2].trim(), 'Why Now');
+  assert.equal(criteria[1][2].trim(), 'Market Frame');
+  assert.match(businessMarkdown(), /^## C1\. Why Now \(7\)$/m);
+  assert.match(businessMarkdown(), /^## C2\. Market Frame \(12\)$/m);
 });
 test('CLI runs offline, reports the canonical relative path and exits nonzero for incomplete anchors', () => {
   const result = spawnSync(process.execPath, [join(__dirname, '../scripts/validate-spec.cjs')], { encoding: 'utf8' });

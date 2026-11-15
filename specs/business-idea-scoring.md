@@ -12,8 +12,8 @@ Thiếu bằng chứng: **50** (MISSING), giữ nguyên trọng số.
 
 | ID | Tiêu chí | W |
 |---|---|---:|
-| F1 | Market Frame — khung thị trường vẽ có đúng không | 12 |
-| F2 | Why Now — tại sao là bây giờ | 7 |
+| C1 | Why Now — tại sao là bây giờ | 7 |
+| C2 | Market Frame — khung thị trường vẽ có đúng không | 12 |
 | C3 | Cấu trúc ngành — Porter 5 forces | 7 |
 | C4 | Defensibility & moat | 4 |
 | C5 | Mô hình kinh doanh có khả thi không | 7 |
@@ -24,11 +24,23 @@ Thiếu bằng chứng: **50** (MISSING), giữ nguyên trọng số.
 | C10 | Thực tế nhu cầu thị trường (người ta có đang trả tiền cho giải pháp thay thế?) | 8 |
 | C11 | Traction của founder | 4 |
 | C12 | Nhu cầu vốn & độ hợp hình thức gọi vốn | 5 |
-| F3 | Dự báo quỹ đạo category 3–5 năm | 6 |
 | C13 | Tiềm năng M&A / exit chiến lược | 2 |
 | C14 | Go-to-market: kênh phân phối & khả năng lặp lại | 7 |
+| F3 | Dự báo quỹ đạo category 3–5 năm | 6 |
 
-## F1. Market Frame (12)
+## C1. Why Now (7)
+
+**Tại sao là bây giờ?** Checklist 8 tín hiệu: enabling-cost crossover (Wright's law, cắt ngưỡng trong runway?), infra readiness (>50% penetration?), behavior evidence (≥1M người đã làm bản inferior?), regulatory window (ngày cố định?), hype-cycle position (chỉ dùng cho funding climate), incumbent blind spot, crisis/supply shock, 5-year asymmetry test (5 năm trước build được không? 5 năm nữa cửa sổ có đóng không?).
+
+| Điểm | Mốc |
+|---:|---|
+| 0 | Không có "why now" nào — hoặc regulation cấm. |
+| 25 | Chỉ 1 tín hiệu yếu (hype) mà thiếu tín hiệu kinh tế/hành vi; hoặc vào muộn thị trường bão hòa. |
+| 50 | 2–3 tín hiệu trung bình nhưng cost crossover chưa trong runway; hoặc tín hiệu mâu thuẫn. |
+| 75 | Timing stack rõ: ≥2 tín hiệu mạnh; trả lời được "sao không phải 5 năm trước/sau". |
+| 100 | Timing stack đầy đủ + bất đối xứng: cost crossover đúng ramp, infra >50%, behavior evidence mạnh, regulatory tailwind có ngày. |
+
+## C2. Market Frame (12)
 
 Hỏi trước: **khung thị trường vẽ có đúng không?** Sizing chỉ có nghĩa sau khi frame đúng.
 - Phải có buyer unit đếm được × giá. Bottom-up cho SAM/SOM từ nguồn đếm có ngày tháng; top-down chỉ chấp nhận cho TAM.
@@ -42,30 +54,6 @@ Hỏi trước: **khung thị trường vẽ có đúng không?** Sizing chỉ c
 | 50 | Bottom-up SAM/SOM có nguồn đếm; SOM gắn với CAC/capacity; giả thuyết expansion được đặt tên và theo dõi. |
 | 75 | Buyer unit rõ + nguồn đếm độc lập; qua derived-bar; expansion pool tách riêng với barrier arithmetic. |
 | 100 | Triangulated: 2+ nguồn đếm độc lập; expansion pool có early evidence; frame đứng vững khi reframe ngược. |
-
-## F2. Why Now (7)
-
-**Tại sao là bây giờ?** Checklist 8 tín hiệu: enabling-cost crossover (Wright's law, cắt ngưỡng trong runway?), infra readiness (>50% penetration?), behavior evidence (≥1M người đã làm bản inferior?), regulatory window (ngày cố định?), hype-cycle position (chỉ dùng cho funding climate), incumbent blind spot, crisis/supply shock, 5-year asymmetry test (5 năm trước build được không? 5 năm nữa cửa sổ có đóng không?).
-
-| Điểm | Mốc |
-|---:|---|
-| 0 | Không có "why now" nào — hoặc regulation cấm. |
-| 25 | Chỉ 1 tín hiệu yếu (hype) mà thiếu tín hiệu kinh tế/hành vi; hoặc vào muộn thị trường bão hòa. |
-| 50 | 2–3 tín hiệu trung bình nhưng cost crossover chưa trong runway; hoặc tín hiệu mâu thuẫn. |
-| 75 | Timing stack rõ: ≥2 tín hiệu mạnh; trả lời được "sao không phải 5 năm trước/sau". |
-| 100 | Timing stack đầy đủ + bất đối xứng: cost crossover đúng ramp, infra >50%, behavior evidence mạnh, regulatory tailwind có ngày. |
-
-## F3. Category Trajectory Forecast 3–5y (6) — *trọng số tạm thời, chưa hiệu chuẩn*
-
-Chấm **chất lượng của việc dự báo**, không chấm lạc quan/bi quan. Dự báo input (cost curves, adoption indicators, policy dates), không dự báo output. Direction + order of magnitude, dạng scenario/bracket — cấm point estimate từ 1 nguồn analyst.
-
-| Điểm | Mốc |
-|---:|---|
-| 0 | Không có forecast input nào; chỉ có point estimate từ 1 nguồn analyst. |
-| 25 | Có 1 input yếu, không có cost curve / adoption indicator / policy date. |
-| 50 | Có direction + ≥1 input đo được, nhưng chưa thành scenario. |
-| 75 | Base/bull/bear hoặc bracket range, mỗi case có input đo được; nêu watch variables và giới hạn. |
-| 100 | Triangulated: cost curve có learning rate đo được + adoption indicators đồng thuận + policy dates cố định; chiến lược thắng ở ≥2 scenario. |
 
 ## C3–C14 (mô tả ngắn — anchors chi tiết giữ nguyên V3)
 
@@ -81,6 +69,18 @@ Chấm **chất lượng của việc dự báo**, không chấm lạc quan/bi q
 - **C12. Capital fit (5):** cần bao nhiêu vốn, hình thức vốn nào hợp (bootstrap / angel / VC / debt).
 - **C13. M&A potential (2):** tiền lệ M&A và acquirer chiến lược trong category.
 - **C14. Go-to-market (7):** kênh phân phối đã nêu tên + giả thuyết test được trong ngân sách validation.
+
+## F3. Category Trajectory Forecast 3–5y (6) — *trọng số tạm thời, chưa hiệu chuẩn*
+
+Chấm **chất lượng của việc dự báo**, không chấm lạc quan/bi quan. Dự báo input (cost curves, adoption indicators, policy dates), không dự báo output. Direction + order of magnitude, dạng scenario/bracket — cấm point estimate từ 1 nguồn analyst.
+
+| Điểm | Mốc |
+|---:|---|
+| 0 | Không có forecast input nào; chỉ có point estimate từ 1 nguồn analyst. |
+| 25 | Có 1 input yếu, không có cost curve / adoption indicator / policy date. |
+| 50 | Có direction + ≥1 input đo được, nhưng chưa thành scenario. |
+| 75 | Base/bull/bear hoặc bracket range, mỗi case có input đo được; nêu watch variables và giới hạn. |
+| 100 | Triangulated: cost curve có learning rate đo được + adoption indicators đồng thuận + policy dates cố định; chiến lược thắng ở ≥2 scenario. |
 
 ## Quy tắc chấm
 

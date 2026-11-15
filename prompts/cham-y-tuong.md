@@ -9,8 +9,8 @@ Chấm ý tưởng kinh doanh/startup dưới đây trên thang /100 với 15 ti
 
 | Tiêu chí | W | Chấm gì |
 |---|---|---|
-| F1. Market Frame | 12 | Khung thị trường vẽ có đúng không (buyer unit đếm được? bottom-up SAM/SOM? derived-bar test?) |
-| F2. Why Now | 7 | Tại sao là bây giờ (cost crossover? infra? behavior evidence? regulatory window?) |
+| C1. Why Now | 7 | Tại sao là bây giờ (cost crossover? infra? behavior evidence? regulatory window?) |
+| C2. Market Frame | 12 | Khung thị trường vẽ có đúng không (buyer unit đếm được? bottom-up SAM/SOM? derived-bar test?) |
 | C3. Porter 5 forces | 7 | Cấu trúc ngành |
 | C4. Defensibility | 4 | Moat / khó copy |
 | C5. Business model | 7 | Ai trả tiền, trả bao nhiêu, khi nào |
@@ -21,9 +21,9 @@ Chấm ý tưởng kinh doanh/startup dưới đây trên thang /100 với 15 ti
 | C10. Market demand reality | 8 | Người ta có đang trả tiền cho giải pháp thay thế không |
 | C11. Founder traction | 4 | Tín hiệu validation đã làm được |
 | C12. Capital fit | 5 | Cần bao nhiêu vốn, hình thức vốn nào hợp |
-| F3. Category forecast 3–5y | 6 | Chất lượng dự báo (input đo được, scenario/bracket — cấm point estimate) |
 | C13. M&A potential | 2 | Tiền lệ M&A, acquirer chiến lược |
 | C14. Go-to-market | 7 | Kênh phân phối + khả năng lặp lại |
+| F3. Category forecast 3–5y | 6 | Chất lượng dự báo (input đo được, scenario/bracket — cấm point estimate) |
 
 **Luật chấm:**
 - Mỗi tiêu chí: điểm theo mốc 0 / 25 / 50 / 75 / 100, kèm lý do + bằng chứng. Thiếu bằng chứng: 50, ghi MISSING.

@@ -40,7 +40,7 @@ function validateMarkdown(markdown) {
       }
       const weight = /^\d+(?:\.\d+)?$/.test(row[2]) ? Number(row[2]) : NaN;
       if (!Number.isFinite(weight) || weight <= 0) error('weight', i + 1, `${row[0]}: weight must be positive and finite.`);
-      criteria.push({ id: row[0], weight, line: i + 1, anchors: [] });
+      criteria.push({ id: row[0], name: row[1], weight, line: i + 1, anchors: [] });
     }
   }
   if (criteria.length !== count) error('count', Math.max(1, countLine + 1), `Declared ${count} criteria; found ${criteria.length}.`);
@@ -90,9 +90,28 @@ function validateMarkdown(markdown) {
   return { total, sum, criteria, errors };
 }
 
+// Owner-approved implemented contract (V4-revised, 2026-10-10).
+// Keep the structural validator reusable for synthetic fixtures.
+function validateBusinessMarkdown(markdown) {
+  const result = validateMarkdown(markdown);
+  const expectedIds = Array.from({ length: 14 }, (_, i) => `C${i + 1}`).concat('F3');
+  if (result.criteria.map(c => c.id).join(',') !== expectedIds.join(',')) {
+    result.errors.push({ code: 'canonical-ids', line: result.criteria[0]?.line || 1,
+      message: 'Business criterion IDs must be ordered C1–C14, F3 (no F1/F2).' });
+  }
+  for (const [id, name, weight] of [['C1', 'Why Now', 7], ['C2', 'Market Frame', 12]]) {
+    const criterion = result.criteria.find(c => c.id === id);
+    if (!criterion || !criterion.name.startsWith(`${name} — `) || criterion.weight !== weight) {
+      result.errors.push({ code: 'canonical-mapping', line: criterion?.line || 1,
+        message: `${id} must mean ${name} with weight ${weight}.` });
+    }
+  }
+  return result;
+}
+
 if (require.main === module) {
   try {
-    const result = validateMarkdown(readFileSync(join(__dirname, '..', SPEC_PATH), 'utf8'));
+    const result = validateBusinessMarkdown(readFileSync(join(__dirname, '..', SPEC_PATH), 'utf8'));
     for (const issue of result.errors) console.error(`${SPEC_PATH}:${issue.line}: ${issue.message}`);
     console.log(`${result.criteria.length} criteria; weights ${result.sum}/${result.total}; ${result.errors.length} validation error(s).`);
     process.exitCode = result.errors.length ? 1 : 0;
@@ -102,4 +121,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { validateMarkdown };
+module.exports = { validateMarkdown, validateBusinessMarkdown };
