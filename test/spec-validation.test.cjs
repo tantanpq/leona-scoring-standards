@@ -56,7 +56,7 @@ test('rejects unknown and duplicated sections and inconsistent heading weights',
   rejects(fixture().replace('First (40)', 'First (41)'), 'section-weight');
 });
 test('handles empty input without silently passing', () => assert.ok(validateMarkdown('').errors.length > 0));
-test('current spec totals 100 and exposes all twelve unresolved inherited anchor sets', () => {
+test('current spec totals 100 and defines all five anchors for every approved criterion', () => {
   const markdown = businessMarkdown();
   const result = validateBusinessMarkdown(markdown);
   assert.equal(result.criteria.length, 15);
@@ -65,13 +65,10 @@ test('current spec totals 100 and exposes all twelve unresolved inherited anchor
   assert.equal(new Set(result.criteria.map(c => c.id)).size, 15);
   assert.deepEqual(result.criteria.map(c => c.id), approvedIds);
   assert.deepEqual(result.criteria.map(c => c.weight), approvedWeights);
-  assert.equal(result.errors.length, 12);
-  assert.ok(result.errors.every(issue => issue.code === 'missing-anchors'));
-  assert.deepEqual(result.criteria.filter(c => c.anchors.length === 5).map(c => c.id).sort(), ['C1', 'C2', 'F3']);
-  // Appending explicit synthetic definitions proves missing anchors are detected,
-  // rather than waived for the current document. Never write this fixture to disk.
-  const completed = markdown + result.criteria.filter(c => !c.anchors.length).map(c => `\n## ${c.id}. Example (${c.weight})\n\n| Điểm | Mốc |\n|---:|---|\n` + [0, 25, 50, 75, 100].map(n => `| ${n} | Example |`).join('\n')).join('\n');
-  assert.deepEqual(validateBusinessMarkdown(completed).errors, []);
+  assert.deepEqual(result.errors, []);
+  for (const criterion of result.criteria) {
+    assert.deepEqual(criterion.anchors, [0, 25, 50, 75, 100], criterion.id);
+  }
 });
 test('business validator rejects legacy IDs and reordered canonical IDs', () => {
   const markdown = businessMarkdown();
@@ -103,10 +100,17 @@ test('copy-paste prompt uses the approved ordered IDs, weights and C1/C2 meaning
   assert.match(businessMarkdown(), /^## C1\. Why Now \(7\)$/m);
   assert.match(businessMarkdown(), /^## C2\. Market Frame \(12\)$/m);
 });
-test('CLI runs offline, reports the canonical relative path and exits nonzero for incomplete anchors', () => {
+test('summary delegates anchors to the spec and C14 keeps its owner decision visible', () => {
+  const prompt = readFileSync(join(__dirname, '../prompts/cham-y-tuong.md'), 'utf8');
+  assert.match(prompt, /\]\(\.\.\/specs\/business-idea-scoring\.md\)/);
+  const c14 = businessMarkdown().split('## C14.')[1]?.split('\n## F3.')[0] || '';
+  assert.match(c14, /OPEN OWNER DECISION: C14 hypothesis vs test-evidence conflict/);
+  for (const line of [137, 142, 215]) assert.ok(c14.includes(`prompt-builder.js:${line}`));
+});
+
+test('CLI runs offline and passes the complete canonical spec without diagnostics', () => {
   const result = spawnSync(process.execPath, [join(__dirname, '../scripts/validate-spec.cjs')], { encoding: 'utf8' });
-  assert.equal(result.status, 1);
-  assert.match(result.stdout, /15 criteria; weights 100\/100; 12 validation error\(s\)/);
-  assert.match(result.stderr, /specs\/business-idea-scoring\.md:17: C3: missing anchor definitions/);
-  assert.equal(result.stderr.trim().split('\n').length, 12);
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /15 criteria; weights 100\/100; 0 validation error\(s\)/);
+  assert.equal(result.stderr, '');
 });

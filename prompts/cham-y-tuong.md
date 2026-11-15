@@ -25,6 +25,8 @@ Chấm ý tưởng kinh doanh/startup dưới đây trên thang /100 với 15 ti
 | C14. Go-to-market | 7 | Kênh phân phối + khả năng lặp lại |
 | F3. Category forecast 3–5y | 6 | Chất lượng dự báo (input đo được, scenario/bracket — cấm point estimate) |
 
+Đây là bảng tóm tắt. Khi chấm từng mốc, dùng [anchors 0/25/50/75/100 và phạm vi chấm trong spec](../specs/business-idea-scoring.md); đọc cả ghi chú **OPEN OWNER DECISION** ở C14. F3 giữ trọng số 6 tạm thời, chưa hiệu chuẩn.
+
 **Luật chấm:**
 - Mỗi tiêu chí: điểm theo mốc 0 / 25 / 50 / 75 / 100, kèm lý do + bằng chứng. Thiếu bằng chứng: 50, ghi MISSING.
 - Cùng một fact không tính điểm 2 lần.
