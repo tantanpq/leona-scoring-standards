@@ -100,12 +100,40 @@ test('copy-paste prompt uses the approved ordered IDs, weights and C1/C2 meaning
   assert.match(businessMarkdown(), /^## C1\. Why Now \(7\)$/m);
   assert.match(businessMarkdown(), /^## C2\. Market Frame \(12\)$/m);
 });
-test('summary delegates anchors to the spec and C14 keeps its owner decision visible', () => {
+test('summary delegates anchors to the spec and applies the C14 strict evidence rule', () => {
   const prompt = readFileSync(join(__dirname, '../prompts/cham-y-tuong.md'), 'utf8');
   assert.match(prompt, /\]\(\.\.\/specs\/business-idea-scoring\.md\)/);
+  assert.doesNotMatch(prompt, /OPEN OWNER DECISION/);
+  const summary = prompt.split('\n').find(line => line.startsWith('| C14.')) || '';
+  assert.match(summary, /chỉ có giả thuyết.*tối đa 50/);
+  assert.match(summary, /75.*bằng chứng.*test riêng.*từng kênh/);
+});
+
+test('C14 ownership caps hypotheses at 50 and requires actual separate channel tests for 75', () => {
   const c14 = businessMarkdown().split('## C14.')[1]?.split('\n## F3.')[0] || '';
-  assert.match(c14, /OPEN OWNER DECISION: C14 hypothesis vs test-evidence conflict/);
-  for (const line of [137, 142, 215]) assert.ok(c14.includes(`prompt-builder.js:${line}`));
+  const ownership = c14.split('| Điểm |')[0];
+  assert.match(c14, /Owner decision 2026-11-14: strict evidence rule/);
+  assert.doesNotMatch(businessMarkdown(), /OPEN OWNER DECISION|còn chờ owner quyết định/);
+  assert.match(ownership, /Chỉ có giả thuyết.*tối đa 50/);
+  assert.match(ownership, /75.*bằng chứng thực tế.*test riêng biệt đã chạy trên từng kênh/);
+  assert.match(ownership, /Bet đang mở.*0 điểm cộng thêm/);
+});
+
+test('C14 anchors enforce the hypothesis cap and retain cohort reproducibility and resilience at 100', () => {
+  const c14 = businessMarkdown().split('## C14.')[1]?.split('\n## F3.')[0] || '';
+  const anchors = new Map([...c14.matchAll(/^\| (\d+) \| (.+) \|\r?$/gm)].map(match => [Number(match[1]), match[2]]));
+  assert.match(anchors.get(50), /chỉ có giả thuyết.*tối đa 50/);
+  assert.match(anchors.get(75), /Bằng chứng thực tế.*test riêng biệt đã chạy trên từng kênh.*quy trình tái lập được/);
+  assert.match(anchors.get(100), /Đáp ứng mốc 75/);
+  assert.match(anchors.get(100), /tái lập được qua các cohort liên quan/);
+  assert.match(anchors.get(100), /chống chịu.*rủi ro tập trung hoặc thay đổi quyền tiếp cận/);
+});
+
+test('parity report resolves C14 by owner decision while leaving D5 pending', () => {
+  const report = readFileSync(join(__dirname, '../docs/PARITY_REPORT.md'), 'utf8');
+  assert.match(report, /^\| C14 conflict[^\n]+\*\*RESOLVED\*\*[^\n]+owner decision 2026-11-14/m);
+  assert.match(report, /^\| D5 \| \*\*NEEDS_DECISION\*\*/m);
+  assert.match(report, /separate PRs in `business-idea-scorer` and `free-ai-tools-hub`/);
 });
 
 test('CLI runs offline and passes the complete canonical spec without diagnostics', () => {

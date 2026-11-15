@@ -22,10 +22,10 @@ Chấm ý tưởng kinh doanh/startup dưới đây trên thang /100 với 15 ti
 | C11. Founder traction | 4 | Tín hiệu validation đã làm được |
 | C12. Capital fit | 5 | Cần bao nhiêu vốn, hình thức vốn nào hợp |
 | C13. M&A potential | 2 | Tiền lệ M&A, acquirer chiến lược |
-| C14. Go-to-market | 7 | Kênh phân phối + khả năng lặp lại |
+| C14. Go-to-market | 7 | Kênh phân phối + khả năng lặp lại; chỉ có giả thuyết test được thì tối đa 50; mốc 75 cần bằng chứng thực tế từ test riêng đã chạy trên từng kênh |
 | F3. Category forecast 3–5y | 6 | Chất lượng dự báo (input đo được, scenario/bracket — cấm point estimate) |
 
-Đây là bảng tóm tắt. Khi chấm từng mốc, dùng [anchors 0/25/50/75/100 và phạm vi chấm trong spec](../specs/business-idea-scoring.md); đọc cả ghi chú **OPEN OWNER DECISION** ở C14. F3 giữ trọng số 6 tạm thời, chưa hiệu chuẩn.
+Đây là bảng tóm tắt. Khi chấm từng mốc, dùng [anchors 0/25/50/75/100 và phạm vi chấm trong spec](../specs/business-idea-scoring.md); C14 áp dụng quyết định owner ngày 2026-11-14 về bằng chứng test kênh thực tế. F3 giữ trọng số 6 tạm thời, chưa hiệu chuẩn.
 
 **Luật chấm:**
 - Mỗi tiêu chí: điểm theo mốc 0 / 25 / 50 / 75 / 100, kèm lý do + bằng chứng. Thiếu bằng chứng: 50, ghi MISSING.

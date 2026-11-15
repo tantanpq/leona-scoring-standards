@@ -28,7 +28,7 @@ Thiếu bằng chứng: **50** (MISSING), giữ nguyên trọng số.
 | C14 | Go-to-market: kênh phân phối & khả năng lặp lại | 7 |
 | F3 | Dự báo quỹ đạo category 3–5 năm | 6 |
 
-**Nguồn anchors và phạm vi chấm:** bản triển khai [prompt-builder.js tại commit `1925d2489b2e54cc14411cf598d68e4762973fc1`](https://github.com/tantanpq/business-idea-scorer/blob/1925d2489b2e54cc14411cf598d68e4762973fc1/prompt-builder.js). Các mốc dưới đây dịch từ bản này; xung đột C14 được ghi riêng, còn chờ owner quyết định.
+**Nguồn anchors và phạm vi chấm:** bản triển khai [prompt-builder.js tại commit `1925d2489b2e54cc14411cf598d68e4762973fc1`](https://github.com/tantanpq/business-idea-scorer/blob/1925d2489b2e54cc14411cf598d68e4762973fc1/prompt-builder.js). Các mốc dưới đây dịch từ bản này; riêng C14 áp dụng quyết định owner ngày 2026-11-14 về bằng chứng test kênh thực tế.
 
 ## C1. Why Now (7)
 
@@ -192,18 +192,18 @@ Hỏi trước: **khung thị trường vẽ có đúng không?** Sizing chỉ c
 
 ## C14. Go-to-market (7)
 
-**Phạm vi chấm:** khách hàng tiếp cận được, quy trình chuyển đổi và kênh có khả năng lặp lại.
+**Phạm vi chấm:** khách hàng tiếp cận được, quy trình chuyển đổi và kênh có khả năng lặp lại. Chỉ có giả thuyết phân phối test được trong ngân sách validation, dù đã định nghĩa test trong Tracked Bets, thì tối đa 50. Mốc 75 yêu cầu bằng chứng thực tế từ các test riêng biệt đã chạy trên từng kênh, chứng minh quy trình tái lập được.
 
-> **OPEN OWNER DECISION: C14 hypothesis vs test-evidence conflict**
-> Ownership của bản triển khai (`prompt-builder.js:137`) cho phép giả thuyết phân phối được nêu tên, test được trong ngân sách validation ("hypothesis + test defined" trong Tracked Bets) ở mốc 75 thay vì mặc định 50; không được "50-and-forget" khi có giả thuyết test được. Nhưng anchor 75 (`prompt-builder.js:142`) yêu cầu các test kênh riêng biệt chứng minh quy trình lặp lại, còn bet đang mở cộng 0 điểm (`prompt-builder.js:215`). Giữ nguyên cả hai phát biểu và anchors bên dưới; **chưa chọn quy tắc ưu tiên**, chờ owner giải quyết xung đột.
+> Owner decision 2026-11-14: strict evidence rule
+> Bet đang mở = 0 điểm cộng thêm; giả thuyết và kế hoạch test chưa chạy không đủ để lên 75.
 
 | Điểm | Mốc |
 |---:|---|
 | 0 | Bằng chứng cho thấy đường tiếp cận đề xuất không thể tiếp cận hoặc chuyển đổi số người mua cần thiết, không có phương án thay thế khả tín. |
 | 25 | Có một phần khả năng tiếp cận, nhưng thu hút khách hàng còn tùy hứng hoặc phụ thuộc quan hệ đặc biệt của founder. |
-| 50 | Có bằng chứng về kênh cụ thể và quy trình mua, có funnel ban đầu nhưng khả năng lặp lại chưa chắc chắn. |
-| 75 | Các test kênh riêng biệt chứng minh quy trình tái lập được, hiểu rõ các bước chuyển đổi và ràng buộc của chu kỳ bán hàng. |
-| 100 | Đường tiếp cận chính tiếp tục tái lập được qua các cohort liên quan, có khả năng chống chịu khả tín trước rủi ro tập trung hoặc thay đổi quyền tiếp cận. |
+| 50 | Có bằng chứng về kênh cụ thể và quy trình mua, có funnel ban đầu nhưng khả năng lặp lại chưa chắc chắn; chỉ có giả thuyết phân phối test được, dù đã định nghĩa test trong Tracked Bets, thì tối đa 50. |
+| 75 | Bằng chứng thực tế từ các test riêng biệt đã chạy trên từng kênh chứng minh quy trình tái lập được, hiểu rõ các bước chuyển đổi và ràng buộc của chu kỳ bán hàng. |
+| 100 | Đáp ứng mốc 75; đường tiếp cận chính tiếp tục tái lập được qua các cohort liên quan, có khả năng chống chịu khả tín trước rủi ro tập trung hoặc thay đổi quyền tiếp cận. |
 
 ## F3. Category Trajectory Forecast 3–5y (6) — *trọng số tạm thời, chưa hiệu chuẩn*
 
